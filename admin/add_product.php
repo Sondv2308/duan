@@ -45,6 +45,7 @@ $categoriesList = $category->getAll();
             <li><a href="orderlist.php">Quản lý Đơn hàng</a></li>
         </ul>
     </nav>
+  
     <div class="container">
         <p style="color: green;"><?= !empty($result) ? $result : '' ?></p>
         <div class="form-add">
