@@ -49,6 +49,7 @@ $pageCount = $product->getCountPaging();
         <ul>
             <li><a href="productlist.php" class="active">Quản lý Sản phẩm</a></li>
             <li><a href="categoriesList.php">Quản lý Danh mục</a></li>
+            <li><a href=".php">Quản lý đơn hàng</a></li>
         </ul>
     </nav>
     <div class="addNew">
