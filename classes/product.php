@@ -143,7 +143,6 @@ class product
         $unique_image = substr(md5(time()), 0, 10) . '.' . $file_ext;
         $uploaded_image = "uploads/" . $unique_image;
 
-        
         if (!empty($file_name)) {
             move_uploaded_file($file_temp, $uploaded_image);
             $query = "UPDATE products SET 
