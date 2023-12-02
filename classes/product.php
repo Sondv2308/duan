@@ -5,9 +5,7 @@ include_once($filepath . '/../lib/session.php');
 ?>
 
 <?php
-/**
- * 
- */
+
 class product
 {
     private $db;
@@ -25,7 +23,7 @@ class product
         $des = $data['des'];
         $qty = $data['qty'];
 
-        // Check image and move to upload folder
+    
         $file_name = $_FILES['image']['name'];
         $file_temp = $_FILES['image']['tmp_name'];
 
@@ -108,7 +106,7 @@ class product
         return $result;
     }
 
-    public function getProductsByCateId($page = 1, $cateId, $total = 8)
+    public function getProductsByCateId($page = 10, $cateId, $total = 1)
     {
         if ($page <= 0) {
             $page = 1;
@@ -126,13 +124,7 @@ class product
         }
         return false;
     }
-    public function searchProducts($keyword)
-    {
-        // Sử dụng truy vấn SELECT để tìm kiếm sản phẩm theo từ khóa
-        $query = "SELECT * FROM products WHERE name LIKE '%$keyword%'";
-        $result = $this->db->select($query);
-        return $result;
-    }
+
 
     public function update($data, $files)
     {
@@ -151,7 +143,7 @@ class product
         $unique_image = substr(md5(time()), 0, 10) . '.' . $file_ext;
         $uploaded_image = "uploads/" . $unique_image;
 
-        //If user has chooose new image
+        
         if (!empty($file_name)) {
             move_uploaded_file($file_temp, $uploaded_image);
             $query = "UPDATE products SET 
@@ -202,41 +194,16 @@ class product
     }
     public function deleteProduct($productId)
     {
-        // Xóa các bản ghi liên quan từ bảng order_details
+        
         $deleteOrderDetailsQuery = "DELETE FROM order_details WHERE productId = $productId";
         $this->db->delete($deleteOrderDetailsQuery);
 
-        // Xóa sản phẩm từ bảng products
+       
         $deleteProductQuery = "DELETE FROM products WHERE id = $productId";
         $result = $this->db->delete($deleteProductQuery);
         
         return $result;
     }
-// Trong lớp product
-public function filterProducts($minPrice = null, $maxPrice = null, $page = 1, $total = 8)
-{
-    if ($page <= 0) {
-        $page = 1;
-    }
-    $tmp = ($page - 1) * $total;
-
-    // Xây dựng câu truy vấn
-    $query = "SELECT * FROM products WHERE status = 1";
-
-    // Thêm điều kiện lọc theo giá nếu được chỉ định
-    if ($minPrice !== null) {
-        $query .= " AND promotionPrice >= $minPrice";
-    }
-    if ($maxPrice !== null) {
-        $query .= " AND promotionPrice <= $maxPrice";
-    }
-
-    // Thêm phần limit vào câu truy vấn
-    $query .= " LIMIT $tmp, $total";
-
-    $result = $this->db->select($query);
-    return $result;
-}
 
     public function updateQty($id, $qty)
     {
