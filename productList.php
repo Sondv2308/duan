@@ -8,18 +8,10 @@ $cart = new cart();
 $totalQty = $cart->getTotalQtyByUserId();
 
 $product = new product();
+$list = $product->getProductsByCateId((isset($_GET['page']) ? $_GET['page'] : 1), (isset($_GET['cateId']) ? $_GET['cateId'] : 2));
+$pageCount = $product->getCountPagingClient((isset($_GET['cateId']) ? $_GET['cateId'] : 2));
+
 $categories = new categories();
-
-// Kiểm tra xem có tham số tìm kiếm được gửi từ form hay không
-if (isset($_GET['search'])) {
-    $searchKeyword = $_GET['search'];
-    $list = mysqli_fetch_all($product->searchProducts($searchKeyword), MYSQLI_ASSOC);
-} else {
-    // Nếu không có tham số tìm kiếm, hiển thị sản phẩm nổi bật
-    $list = mysqli_fetch_all($product->getFeaturedProducts(), MYSQLI_ASSOC);
-}
-
-// Lấy danh sách danh mục
 $categoriesList = $categories->getAll();
 ?>
 
@@ -30,7 +22,7 @@ $categoriesList = $categories->getAll();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://use.fontawesome.com/2145adbb48.js"></script>
     <script src="https://kit.fontawesome.com/a42aeb5b72.js" crossorigin="anonymous"></script>
@@ -40,7 +32,6 @@ $categoriesList = $categories->getAll();
 <body>
     <nav>
         <label class="logo">AZShop</label>
-        
         <ul>
             <li><a href="index.php">Trang chủ</a></li>
             <li><a href="productList.php" class="active">Sản phẩm</a></li>
@@ -65,11 +56,9 @@ $categoriesList = $categories->getAll();
     <section class="banner"></section>
     <div class="featuredProducts">
         <h1>Danh sách sản phẩm</h1>
-        
     </div>
     <div class="category">
-        Danh mục:
-        <select onchange="location = this.value;">
+        Danh mục: <select onchange="location = this.value;">
             <?php
             foreach ($categoriesList as $key => $value) {
                 if ($value['id'] == $_GET['cateId']) { ?>
@@ -80,12 +69,6 @@ $categoriesList = $categories->getAll();
             <?php }
             ?>
         </select>
-        <div class="search-container">
-        <form action="productList.php" method="GET">
-            <input type="text" placeholder="Tìm kiếm sản phẩm..." name="search">
-            <button type="submit"><i class="fa fa-search"></i>Tìm kiếm</button>
-        </form>
-    </div>
     </div>
     <div class="container">
         <?php if ($list) {
@@ -114,7 +97,7 @@ $categoriesList = $categories->getAll();
                         <div class="price">
                             Giá bán: <?= number_format($value['promotionPrice'], 0, '', ',') ?>VND
                         </div>
-
+            
                         <div class="action">
                             <a class="add-cart" href="add_cart.php?id=<?= $value['id'] ?>">Thêm vào giỏ</a>
                             <a class="detail" href="detail.php?id=<?= $value['id'] ?>">Xem chi tiết</a>
@@ -127,8 +110,25 @@ $categoriesList = $categories->getAll();
         <?php  }
         ?>
     </div>
-   
+    <div class="pagination">
+        <a href="productList.php?page=<?= (isset($_GET['page'])) ? (($_GET['page'] <= 1) ? 1 : $_GET['page'] - 1) : 1 ?>&cateId=<?= (isset($_GET['cateId'])) ? $_GET['cateId'] : 2 ?>">&laquo;</a>
+        <?php
+        for ($i = 1; $i <= $pageCount; $i++) {
+            if (isset($_GET['page'])) {
+                if ($i == $_GET['page']) { ?>
+                    <a class="active" href="productList.php?page=<?= $i ?>&cateId=<?= (isset($_GET['cateId'])) ? $_GET['cateId'] : 2 ?>"><?= $i ?></a>
+                <?php } else { ?>
+                    <a href="productList.php?page=<?= $i ?>&cateId=<?= (isset($_GET['cateId'])) ? $_GET['cateId'] : 2 ?>"><?= $i ?></a>
+                <?php  }
+            } else { ?>
+                <a href="productList.php?page=<?= $i ?>&cateId=<?= (isset($_GET['cateId'])) ? $_GET['cateId'] : 2 ?>"><?= $i ?></a>
+            <?php  } ?>
+        <?php }
+        ?>
+        <a href="productList.php?page=<?= (isset($_GET['page'])) ? $_GET['page'] + 1 : 2 ?>&cateId=<?= (isset($_GET['cateId'])) ? $_GET['cateId'] : 2 ?>">&raquo;</a>
+    </div>
     <footer>
+    
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
