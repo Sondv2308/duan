@@ -44,7 +44,7 @@ $completeOrderList = $order->getCompleteOrder();
         </ul>
     </nav>
     <div class="container">
-        <!-- Tab links -->
+ 
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Processing')">Đang xử lý</button>
             <button class="tablinks" onclick="openTab(event, 'Processed')">Đã xử lý</button>
@@ -52,7 +52,6 @@ $completeOrderList = $order->getCompleteOrder();
             <button class="tablinks" onclick="openTab(event, 'Complete')">Đã hoàn thành</button>
         </div>
 
-        <!-- Tab content -->
         <div id="Processing" class="tabcontent">
             <?php
             if ($processingOrderList) { ?>
@@ -188,7 +187,7 @@ $completeOrderList = $order->getCompleteOrder();
     </div>
     
     <footer>
-        <p class="copyright">STORENOW @ 2021</p>
+        <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
 <script type="text/javascript">
