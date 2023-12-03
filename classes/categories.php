@@ -39,17 +39,7 @@ class categories
         $result = $this->db->select($query);
         return $result;
     }
-    public function delete($id)
-    {
-        $query = "DELETE FROM categories WHERE id = '$id'";
-        $result = $this->db->delete($query);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
+
     public function getAll()
     {
         $query = "SELECT * FROM categories WHERE status = 1";
