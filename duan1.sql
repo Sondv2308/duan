@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2023 at 02:42 AM
+-- Generation Time: Dec 03, 2023 at 04:51 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -37,6 +37,13 @@ CREATE TABLE `cart` (
   `productImage` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `userId`, `productId`, `qty`, `productName`, `productPrice`, `productImage`) VALUES
+(48, 1, 26, 1, 'Bàn phím cơ DareU EK1280 V2 RGB Blue Switch', '990000', '9a090592c8.png');
+
 -- --------------------------------------------------------
 
 --
@@ -55,8 +62,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `status`) VALUES
 (2, 'Bàn phím', 1),
-(4, 'Chuột', 1),
-(5, 'Tai nghe', 1);
+(4, 'Tai nghe', 1),
+(5, 'Chuột', 1);
 
 -- --------------------------------------------------------
 
@@ -77,8 +84,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `userId`, `createdDate`, `receivedDate`, `status`) VALUES
-(39, 31, '2023-11-20', '2023-11-20', 'Complete'),
-(40, 1, '2023-11-29', '2023-12-02', 'Delivering');
+(39, 31, '2021-12-07', '2021-12-07', 'Complete'),
+(40, 1, '2023-12-03', NULL, 'Processing');
 
 -- --------------------------------------------------------
 
@@ -101,13 +108,7 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`id`, `orderId`, `productId`, `qty`, `productPrice`, `productName`, `productImage`) VALUES
-(36, 39, 7, 2, '3190000', 'GUITAR YAMAHA CX40', 'd3ac08c33e.jpg'),
-(37, 39, 4, 1, '749000000', 'Boston GP-156', 'a30bcd79d7.jpg'),
-(38, 39, 8, 3, '19000000', 'Taylor 114E', 'cb50eef0d8.jpg'),
-(39, 39, 9, 4, '4200000', 'Takamine D2D', '758ded2800.jpg'),
-(40, 40, 6, 1, '990000', 'Tai nghe Corsair HS55 Carbon', '17.png'),
-(41, 40, 3, 1, '2590000', 'Bàn phím MonsGeek M1 QMK Black AKKO Switch v3 Cream Yellow Pro', '1.png'),
-(42, 40, 8, 1, '690000', 'Chuột gaming Rapoo VT200 Wireless', '12.png');
+(40, 40, 32, 1, '950000', 'Chuột Logitech G502 Hero Gaming', '1fab16a5e8.png');
 
 -- --------------------------------------------------------
 
@@ -124,8 +125,8 @@ CREATE TABLE `products` (
   `createdBy` int NOT NULL,
   `createdDate` date NOT NULL,
   `cateId` int NOT NULL,
+  `qty` int NOT NULL,
   `des` varchar(1000) NOT NULL,
-  `qty` int DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `soldCount` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -134,24 +135,22 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `originalPrice`, `promotionPrice`, `image`, `createdBy`, `createdDate`, `cateId`, `des`, `qty`, `status`, `soldCount`) VALUES
-(2, 'Bàn phím MonsGeek M1 QMK Silver AKKO Switch v3 Cream Yellow Pro', '2590000', '2390000', '2.png', 1, '0000-00-00', 2, 'MonsGeek M1 QMK Silver AKKO Switch v3 Cream Yellow Pro mang đến trải nghiệm nhanh và chính xác để bạn duy trì hiệu suất làm việc và giải trí cao. Nếu bạn đang phân vân trong việc lựa chọn một chiếc bàn phím cơ ưng ý thì hãy xem ngay MonsGeek M1 QMK Silver.', NULL, 1, 4),
-(3, 'Bàn phím MonsGeek M1 QMK Black AKKO Switch v3 Cream Yellow Pro', '2790', '2590000', '1.png', 1, '0000-00-00', 2, 'MonsGeek M1 QMK Black AKKO Switch v3 Cream Yellow Pro mang đến trải nghiệm nhanh và chính xác để bạn duy trì hiệu suất làm việc và giải trí cao. Nếu bạn đang phân vân trong việc lựa chọn một chiếc bàn phím cơ ưng ý thì hãy xem ngay MonsGeek M1 QMK Black.', NULL, 1, 2),
-(4, 'Chuột Logitech G502 Hero Gaming', '950000', '876000', '11.png', 1, '0000-00-00', 2, 'Ngoài hiệu suất cốt lõi và các tính năng cá nhân, nhiều chi tiết được thiết kế và chế tạo với sự tận tâm. Logitech G502 Hero là một trong những dòng chuột gaming giá rẻ so với các sản phẩm ở cùng phân khúc với dây bện với nút buộc dây có khóa nhám, phần cầm nắm bên có viền cao su, cửa từ vào khoang để khối nặng và nhiều hơn nữa.', NULL, 1, 1),
-(5, 'Tai Nghe Rapoo VH650 RGB Virtual 7.1 Purple', '990000', '850000', '14.png', 1, '0000-00-00', 5, 'Chưa có mô tả cho sản phẩm', NULL, 1, 2),
-(6, 'Tai nghe Corsair HS55 Carbon', '1290000', '990000', '17.png', 1, '0000-00-00', 5, 'HS55 Stereo là dòng sản phẩm tai nghe máy tính mới nhất đến từ Corsair với nhiều cải tiến về công nghệ âm thanh mang đến cho người dùng những trải nghiệm tuyệt vời trong những trò chơi mình yêu thích. ', NULL, 1, 4),
-(7, 'Bàn phím cơ DareU EK75 White Black DareU Dream switch', '690000', '590000', '4.png', 1, '2021-12-07', 2, 'DareU EK75 White Black dòng bàn phím cơ sở hữu thiết kế siêu nhỏ gọn với layout 75%, 80 nút bấm hỗ trợ tốt mọi nhu cầu sử dụng ở bất kỳ đâu khi cần. Đặc biệt, nhờ vào phối màu basic trắng đen được kết hợp hài hòa tạo điều kiện thuận lợi khi lựa chọn chuột máy tính, tai nghe gaming để Setup các góc máy làm việc và chơi game đẹp mắt. Hứa hẹn đây sẽ là một trong những mẫu bàn phím DareU  rất đáng trải nghiệm.', NULL, 1, 2),
-(8, 'Chuột gaming Rapoo VT200 Wireless', '890000', '690000', '12.png', 1, '2021-12-07', 4, 'Chuột Rapoo VT200 Wireless sở hữu kích thước vừa vặn với lòng bàn tay người trưởng thành, ngăn chặn tình trạng \"căng\" các ngón tay khi thao tác chuột Rapoo trong thời gian dài. Đây là dòng chuột gaming giá rẻ mang đến cho bạn cảm giác sử dụng linh động, dễ chịu hơn. ', NULL, 1, 4),
-(9, 'Chuột Razer DeathAdder Essential (RZ01-03850100-R3M1)', '1290000', '489999', '7a75344a82.png', 1, '2021-12-07', 4, 'Chuột gaming DeathAdder Essential được Razer thiết kế với kiểu dáng công thái học (Ergonomic) cổ điển. Thiết kế đẹp mắt và khác biệt ở các dòng chuột máy tính khác, tạo ra sự thoải mái, cho phép người chơi duy trì mức hiệu suất cao trong suốt thời gian chơi game dài, vì vậy bạn sẽ không bao giờ bị ngập ngừng trong các trận chiến nóng bỏng. ', NULL, 1, 4),
-(10, 'Chuột Logitech G102 LightSync Black', '599000', '376000', '9f53a27d89.png', 1, '2021-12-07', 4, 'Chuột Logitech G102 Lightsync RGB lại được trang bị led  RGB 16,8 triệu màu .Chọn một màu hay trộn 3 màu, hiệu ứng có sẵn hay tạo hiệu ứng của riêng bạn . Sự lựa chọn là của bạn ! Bạn còn có thể đồng bộ chuột với thiết bị LIGHTSYNC của Logitech G khác giúp góc máy trở nên đồng bộ và độc đáo hơn.', NULL, 1, 0),
-(11, 'Chuột Corsair Katar Pro Wireless', '1090000', '714000', '300081861b.png', 1, '2021-12-07', 4, 'Tận hưởng sự nhanh nhạy và tiện lợi với công nghệ không dây Slipstream CORSAIR siêu nhanh, dưới 1ms hoặc kết nối với nhiều loại thiết bị có Bluetooth® độ trễ thấp được cấp nguồn với chỉ một pin AA. Một trong những đối thủ cạnh tranh với chuột Logitech và các thương hiệu lớn khác.', NULL, 1, 0),
-(12, 'Chuột Razer Basilisk V3', '1990000', '990000', '9ee82ccb66.png', 1, '2021-12-07', 4, 'Basilisk V3 rất được ưa chuộng từ các game thủ. Không chỉ vì những tính năng đắc lực và độc đáo mà còn ghi điểm bởi thiết kế ấn tượng và tiện lợi. Thiết kế của nó hỗ trợ hoàn hảo cho thao tác tay của bạn. Và các nút của chuột được bố trí ở vị trí tối ưu nhất để bạn có thể sử dụng nhanh chóng và dễ dàng nhất có thể.', NULL, 1, 0),
-(13, 'Bàn phím Rapoo V500L Rainbow Blue Switch', '899000', '550000', '0a9dbda945.png', 1, '2021-12-07', 2, 'Bàn phím cơ giá rẻ Rapoo V500L mang một thiết kế full-size cần thiết, được trang bị đèn bàn phím riêng biệt giữa các phím, thiết kế không gây xung đột khi ấn và các phím tắt tiện lợi.', NULL, 1, 0),
-(14, 'Bàn phím cơ DareU EK1280 V2 RGB Red Switch', '756000', '556000', 'c48fb3d3a2.png', 1, '2021-12-07', 2, 'Chưa có mô tả cho sản phẩm', NULL, 1, 0),
-(15, 'Bàn phím cơ DareU EK75 White Black DareU Dream switch', '590000', '390000', '43b064e9a5.png', 1, '2021-12-07', 2, 'DareU EK75 White Black dòng bàn phím cơ sở hữu thiết kế siêu nhỏ gọn với layout 75%, 80 nút bấm hỗ trợ tốt mọi nhu cầu sử dụng ở bất kỳ đâu khi cần. Đặc biệt, nhờ vào phối màu basic trắng đen được kết hợp hài hòa tạo điều kiện thuận lợi khi lựa chọn chuột máy tính, tai nghe gaming để Setup các góc máy làm việc và chơi game đẹp mắt. ', NULL, 1, 0),
-(16, 'Bàn phím Razer Blackwidow V4 75% Black Tactile', '5090000', '4890000', 'b3c3f11914.png', 1, '2021-12-07', 2, 'Razer BlackWidow v4 75% là một chiếc bàn phím rất thú vị vừa được Razer ra mắt. Vừa nhắm đến đối tượng game thủ, vừa cung cấp khả năng tuỳ biến tuyệt vời cho dân tập tành tuỳ chỉnh bàn phím cơ, tiêu biểu với tính năng hotswap', NULL, 1, 0),
-(17, 'Bàn phím MonsGeek M1 QMK Silver AKKO Switch v3 Cream Yellow Pro', '2790000', '2590000', '795e24c41e.png', 1, '2021-12-07', 2, 'MonsGeek M1 QMK Silver sở hữu ngoại hình với lớp vỏ full nhôm cứng cáp. Lấy màu xám làm chủ đạo để làm tôn thêm vẻ đẹp sang trọng. Tạo hiệu ứng từ đậm đến nhạt dựa vào việc sắp xếp màu sắc của keycaps hồng biến chiếc bàn phím máy tính MonsGeek thu hút ngay từ ánh nhìn đầu tiên. ', NULL, 1, 0),
-(18, 'Bàn phím MonsGeek M1 QMK Black AKKO Switch v3 Cream Yellow Pro', '2590000', '2390000', 'cd83c79206.png', 1, '2021-12-07', 5, 'MonsGeek M1 QMK Black sở hữu ngoại hình với lớp vỏ full nhôm cứng cáp. Lấy màu đen làm chủ đạo để làm tôn thêm vẻ đẹp huyền bí và sự mạnh mẽ. Tạo hiệu ứng từ đậm đến nhạt dựa vào việc sắp xếp màu sắc của keycaps biến chiếc bàn phím máy tính MonsGeek thu hút ngay từ ánh nhìn đầu tiên. \r\n\r\n', 4, 1, 0);
+INSERT INTO `products` (`id`, `name`, `originalPrice`, `promotionPrice`, `image`, `createdBy`, `createdDate`, `cateId`, `qty`, `des`, `status`, `soldCount`) VALUES
+(23, 'Bàn phím MonsGeek M1 QMK Silver AKKO Switch v3 Cream Yellow Pro', '2790000', '2590000', '79ff6dc01b.png', 1, '2023-12-03', 2, 60, 'Thiết kế:	75% có núm xoay\r\nKết nối:	USB Type-C to USB, có thể tháo rời\r\nKeycap:	Keycap PBT Double-Shot / OEM profile\r\nLoại switch:	AKKO Switch v3 – Cream Yellow Pro\r\nLed:	LED nền RGB / South-Facing Mạch Xuôi (Backlit, 4028 SMD LED dạng SMD) với nhiều chế độ\r\nHotswap 5 pin, mạch xuôi (South-Facing) –\r\nHỗ trợ QMK / VIA\r\nHỗ trợ: 	NKRO / Multimedia / Macro / Khóa phím windows\r\nPhụ kiện:	Cover che bụi – Dây cáp – Phụ kiện backup\r\nTương thích:	Windows / MacOS / Linux\r\nKích thước:	332x147x33mm\r\nTrọng lượng:	1.962kg', 1, 19),
+(24, 'Bàn phím E-Dra EK387L RGB Red Switch', '849000', '690000', '163a9e9167.png', 1, '2023-12-03', 2, 49, 'Thương hiệu:	E-Dra\r\nMàu sắc: 	Đen\r\nModel:	EK387L RGB\r\nKết nối:	USB Type C\r\nSố phím:	87 Phím\r\nKích thước:	TKL\r\nĐèn led:	RGB\r\nSwitch Huano:	Red\r\nKeycaps:	Double injection\r\nDây:	1.7m\r\nAntighosting:	Full antishosting keys\r\nTương thích hệ điều hành:	Windows 98 / 2000 / ME / NT / XP / win 7,8,10\r\nTrọng lượng:	855g', 1, 13),
+(25, 'bàn phím DareU EK75 White Black', '890000', '690000', '3113bce163.png', 1, '2023-12-03', 2, 46, 'Loại kết nối	Có dây\r\nLayout	80 key + 1 knob (US）\r\nKeycap	ABS double injection\r\nSwitch	AREU customized Dream switch\r\nDriver	Chưa có driver riêng\r\nKey Conflict	N-Key Rollover\r\nLED 	Rainbow\r\nTrọng lượng	651g+/-10g\r\nKích thước	30.2 x 333.2 x 140.4mm', 1, 28),
+(26, 'Bàn phím cơ DareU EK1280 V2 RGB Blue Switch', '1090000', '990000', '9a090592c8.png', 1, '2023-12-03', 2, 60, 'Thương hiệu	DareU\r\nModel	Bàn Phím Gaming DAREU EK1280 v2 RGB\r\nMàu sắc	Đen\r\nKết nối	Có dây\r\nKiểu dáng	104 phím\r\nSize	Full size\r\nĐèn led	RGB\r\nSwitch	DareU \"D\" Switch: Blue / Red / Brown\r\nKeycaps	ABS Doubleshot\r\nDây	Dài 1,8m\r\nKích thước	440 x 140 x 36 mm\r\nTính năng	N-Key Rollover, led Rainbow', 1, 24),
+(27, 'Bàn phím Rapoo V500L Rainbow Red Switch', '899000', '540000', 'e4d43d12f9.png', 1, '2023-12-03', 2, 38, 'Thương hiệu	Rapoo\r\nModel	V500L\r\nMàu sắc	Đen\r\nKiểu bàn phím	Bàn phím có dây\r\nKiểu kết nối	USB\r\nKích thước	Full size\r\nSwitch	Rapoo Switch Red\r\nĐèn LED	Rainbow', 1, 29),
+(28, 'Chuột Razer Basilisk V3', '1990000', '990000', '0a818c78d5.png', 1, '2023-12-03', 5, 28, 'Thiết kế	Thuận tay phải\r\nKết nối	Có dây (Cáp Razer Speedflex)\r\nThời lượng pin	Không có\r\nĐèn RGB	Razer Chroma RGB\r\nCảm biến	Quang học\r\nĐộ nhạy tối đa	26000\r\nTốc độ tối đa	650\r\nSố nút	11\r\nĐộ bền	70 triệu lần nhấp\r\nBộ nhớ bo mạch	5\r\nLót chuột	100% PTFE\r\nCáp	Cáp Razer Speedflex\r\nCon lăn	Bánh xe nghiêng Razer HyperScroll 4 chiều\r\nChế độ quay tự do và chế độ quay tự do được kích hoạt bằng điện tử\r\nTrọng lượng	101 g / 3,56 oz (Không bao gồm cáp)\r\nKích thước	Chiều dài: 130 mm / 5,11 inch\r\nChiều rộng: 60 mm / 2,36 inch\r\nChiều cao: 42,5 mm / 1,67 inch\r\nTương thích dock	Không có', 1, 37),
+(29, 'Chuột Corsair Katar Pro Ultra Light', '450000', '420000', 'd0cff0fd93.png', 1, '2023-12-03', 5, 37, 'Thương hiệu\r\n\r\nCorsair\r\n\r\nKết nối\r\n\r\nUSB\r\n\r\nKích thước\r\n\r\n115.8x64.2x37.8mm (dài x rộng x cao)\r\n\r\nTrọng lượng\r\n\r\n69g\r\n\r\nDPI tối đa\r\n\r\n12400\r\n\r\nLed\r\n\r\nĐơn sắc\r\n\r\nPhần mềm\r\n\r\nICUE', 1, 34),
+(31, 'Chuột Razer DeathAdder Essential (RZ01-03850100-R3M1)', '1290000', '490000', '5322624ad6.png', 1, '2023-12-03', 5, 50, 'Hãng sản xuất:	Razer\r\nModel:	Deathadder Essential\r\nSố nút:	5 nút có thể lập trình\r\nKiểu kết nối:	Có dây, dây nhựa\r\nĐèn LED	Led Green đơn sắc\r\nMàu sắc:	Đen\r\nKết nối	USB 2.0\r\nKiểu cầm:	Ergonomic / Công thái học\r\nĐộ phân giải (CPI/DPI)	6400DPI\r\nCảm biến:	Cảm biến quang học (Optical)\r\nThời gian phản hồi:	1ms\r\nGia tốc:	220 IPS / 30G\r\nKích thước:	127.0 x 61.7  x 42.7 mm\r\nTrọng lượng:	96g', 1, 0),
+(32, 'Chuột Logitech G502 Hero Gaming', '1590000', '950000', '1fab16a5e8.png', 1, '2023-12-03', 5, 17, 'Cảm biến:	HERO\r\nĐộ phân giải: 	100 - 25.000 dpi\r\nTăng tốc tối đa:	> 40 G\r\nTốc độ tối đa:	> 400 IPS\r\nNút:	11 nút\r\nĐịnh dạng dữ liệu USB:	16 bit/trục\r\nTốc độ báo cáo USB: 	1000 Hz (1ms)\r\nBộ vi xử lý:	ARM 32-bit\r\nBộ nhớ tích hợp:	Tối đa 5 cấu hình (yêu cầu phần mềm 127.1.7)\r\nChân PTFE:	> 250 ki-lô-mét\r\nLIGHTSYNC RGB:	1 khu vực\r\nKích thước:	132 x 75 x 40 mm \r\nTrọng lượng: 	121 g\r\nĐộ dài dây:	2,10 m (dây cao su)', 1, 32),
+(35, 'Tai Nghe Rapoo VH650 RGB Virtual 7.1 Purple', '990000', '850000', '8c78700739.png', 1, '2023-12-03', 4, 42, 'Thương hiệu:	Rapoo\r\nBảo hành:	24 tháng\r\nModel:	Rapoo VH650 7.1\r\nMàu sắc:	Tím\r\nKiểu tai nghe:	Over-ear\r\nKhả năng cách âm:	Có\r\nKiểu kết nối:	Có dây\r\nĐèn led:	Có RGB\r\nChuẩn kết nối:	USB 2.0\r\nMicrophone:	Có\r\nChất liệu đệm tai nghe :	Chất liệu cao cấp\r\nTần số:	20HZ - 20000HZ\r\nTrở kháng:	Tai nghe: 32 ohm\r\nMicro: 2200 ohm\r\nĐộ nhạy:	Tai nghe: 103 ±3dB\r\nMicro: -42 ±2dB\r\nTrọng lượng:	 389g', 1, 17),
+(36, 'Tai nghe Corsair HS55 Wireless Core Black (CA-9011290-AP)', '2845000', '1590000', 'a2a3ff7533.png', 1, '2023-12-03', 4, 41, 'Thương hiệu	Corsair\r\nBảo hành	24 tháng\r\nModel	\r\nTai nghe Corsair HS55 Wireless Core Black (CA-9011290-AP)\r\nMàu sắc	Đen\r\nKiểu tai nghe	Over-ear\r\nKiểu kết nối	Không dây (USB Wireless Receiver), Bluetooth\r\nThời lượng Pin	Lên đến 24 giờ\r\nPhạm vi tai nghe không dây	30ft ( 10.2m)\r\nMicrophone	Đa hướng\r\nChất liệu khung	Khung kim loại, đệm tai xốp Foam\r\nTương thích	PC, PlayStation 4\r\nTrở kháng	Tai nghe: 32000 Ohms\r\nMicro: 1 kHz\r\nTần số	Tai nghe: 20Hz - 20.000Hz\r\nMicro: 100Hz - 10.000Hz\r\nĐộ nhạy	Tai nghe: 114dB (+/- 3dB)\r\nMicro: -41dB (+/- 2dB)\r\nChất lượng âm thanh	\r\nStereo\r\n\r\nÂm thanh vòm	Không\r\nKhả năng cách âm	Có\r\nTrình điều khiển tai nghe	50mm', 1, 27),
+(37, 'Tai nghe HP HyperX Cloud III Wireless Black', '4389998', '3890000', 'cfdb03b959.png', 1, '2023-12-03', 4, 55, 'Hãng sản xuất:\r\n\r\nHP HyperX\r\n\r\nModel:\r\n\r\nCloud III Black Wireless\r\n\r\nBảo hành\r\n\r\n24 Tháng\r\n\r\nTần số đáp ứng:	\r\n10Hz-21kHz\r\n\r\nChiều dài dây cáp:\r\n\r\nCáp tai nghe 1.2m, Cáp USB dongle 1m3\r\n\r\nMàng loa:\r\n\r\n53mm\r\n\r\nLoại khung:\r\n\r\nNhôm\r\n\r\nĐộ nhạy:\r\n\r\n-21.5 dBV (0dB = 1V / Pa ở 1kHz)\r\n\r\nKết nối thông qua jack:\r\n\r\nUSB-A hoặc USB-C\r\nPhụ kiện đi kèm:\r\n\r\nMicrophone,  souncard USB\r\n\r\nTương thích:\r\n\r\n- PC, PS5, PS4, Xbox Series X|S, Xbox One, Nintendo Switch, Mac và các thiết bị di động.\r\n- Các đầu nối 3,5mm, USB-A và USB-C\r\n\r\nÂm thanh vòm:\r\n\r\n7.1\r\n\r\nPhạm vi tai nghe không dây	Lên đến 20m\r\nPin:	Dung lượng pin: 120 giờ\r\nThời gian sạc: 4,5 giờ', 1, 12),
+(38, 'Tai nghe Corsair HS55 Carbon', '1290000', '990000', '95a25dad96.png', 1, '2023-12-03', 4, 43, 'Thương hiệu:	Corsair\r\nBảo hành:	24 Tháng\r\nModel:	Corsair HS55 Carbon\r\nMàu sắc:	Đen\r\nKiểu tai nghe	Over-ear\r\nKiểu kết nối:	Có dây\r\nMicrophone:	Có\r\nDây:	Dài 1,8m\r\nTần số :	Tai nghe: 20Hz - 20000Hz\r\nMicro: 100Hz - 10000Hz\r\nTrở kháng:	Tai nghe: 32k Ohms @ 1 kHz\r\nMicro: 2.2k Ohms\r\nĐộ nhạy:	Tai nghe: 114dB (+/-3dB)\r\nMicro: -41dB (+/-3dB)\r\nDrivers:	50mm\r\nTương thích:	PC, Mac, PlayStation 4/5, Xbox One / Series XS, Nintendo Switch, Mobile devices\r\nKhả năng cách âm:	Có', 1, 34),
+(39, 'Tai nghe Razer Barracuda X 2022', '2599000', '2390000', 'ecc1e45347.png', 1, '2023-12-03', 4, 56, 'Thương hiệu	Razer\r\nModel	Razer Barracuda X 2022\r\nMàu sắc	Đen\r\nKiểu tai nghe	Over-ear\r\nKiểu kết nối	USB Type-C Wireless (2.4GHz), Bluetooth 5.2, 3.5mm Analog\r\nKích thước	Đường kính earcup bên trong: 60 mm x 40 mm\r\nĐộ nhạy	-42 ± 3 dB\r\nTrọng lượng	\r\n250g\r\nTần số	20 Hz – 20 kHz', 1, 23),
+(40, 'Chuột Logitech G102 LightSync Black', '599000', '398999', 'efb0c383f1.png', 1, '2023-12-03', 5, 45, 'Thương hiệu\r\n\r\nLogitech\r\n\r\nTên sản phẩm\r\n\r\nLogitech G102 Lightsync RGB\r\n\r\nThiết kế\r\n\r\nĐối xứng - Ambidextrous\r\n\r\nMắt đọc\r\n\r\nMercury Sensor\r\n\r\nĐiểm ảnh trên 1 inch (DPI)\r\n\r\n8000\r\n\r\nIPS\r\n\r\n200\r\n\r\nGia tốc\r\n\r\n30g\r\n\r\nTần số phản hồi\r\n\r\n1000Hz\r\n\r\nChất liệu vỏ\r\n\r\nNhựa ABS\r\n\r\nMàu sắc\r\n\r\nĐen\r\n\r\nSố lượng nút bấm\r\n\r\n6\r\n\r\nSwitch\r\n\r\nOmron\r\n\r\nTuổi thọ\r\n\r\n50 triệu lần nhấn\r\n\r\nLED\r\n\r\nRGB Lightsync\r\n\r\nKết nối\r\n\r\nUSB\r\n\r\nĐộ dài dây (cm)\r\n\r\n210\r\n\r\nKích thước (mm)\r\n\r\nDài 116.6 x Rộng 62.15 x Cao 38.2\r\n\r\nTrọng lượng (gr)\r\n\r\n85g (không cable)\r\n\r\nPhần mềm\r\n\r\nLogitech G-Hub', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -196,12 +195,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `fullname`, `dob`, `password`, `role_id`, `status`, `address`, `isConfirmed`, `captcha`) VALUES
-(1, 'admin@gmail.com', 'Admin', '2023-11-20', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, '', 1, ''),
-(31, 'sondao@gmail.com', 'Sondao', '2023-11-26', '345678', 2, 1, 'Ha Noi', 1, '56661');
+(1, 'admin@gmail.com', 'Nguyễn Lập An Khương', '2021-11-01', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, '', 1, ''),
+(31, 'admin1@gmail.com', 'admin', '2021-12-06', 'c4ca4238a0b923820dcc509a6f75849b', 2, 1, 'HaNoi', 1, '56661'),
+(32, 'daovanson2308@gmail.com', 'Dao Van Son', '2004-08-23', '9a17065799b3398cad8310341156d3b7', 2, 1, 'Ha Noi', 0, '49460');
 
 --
 -- Indexes for dumped tables
 --
+
 --
 -- Indexes for table `cart`
 --
@@ -259,13 +260,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -277,13 +278,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -295,7 +296,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
