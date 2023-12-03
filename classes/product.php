@@ -5,7 +5,9 @@ include_once($filepath . '/../lib/session.php');
 ?>
 
 <?php
-
+/**
+ * 
+ */
 class product
 {
     private $db;
@@ -23,7 +25,7 @@ class product
         $des = $data['des'];
         $qty = $data['qty'];
 
-    
+        // Check image and move to upload folder
         $file_name = $_FILES['image']['name'];
         $file_temp = $_FILES['image']['tmp_name'];
 
@@ -125,7 +127,6 @@ class product
         return false;
     }
 
-
     public function update($data, $files)
     {
         $name = $data['name'];
@@ -143,6 +144,7 @@ class product
         $unique_image = substr(md5(time()), 0, 10) . '.' . $file_ext;
         $uploaded_image = "uploads/" . $unique_image;
 
+        //If user has chooose new image
         if (!empty($file_name)) {
             move_uploaded_file($file_temp, $uploaded_image);
             $query = "UPDATE products SET 
@@ -191,6 +193,28 @@ class product
         }
         return false;
     }
+
+    public function block($id)
+    {
+        $query = "UPDATE products SET status = 0 where id = '$id' ";
+        $result = $this->db->delete($query);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function active($id)
+    {
+        $query = "UPDATE products SET status = 1 where id = '$id' ";
+        $result = $this->db->delete($query);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function deleteProduct($productId)
     {
         
@@ -203,7 +227,6 @@ class product
         
         return $result;
     }
-
     public function updateQty($id, $qty)
     {
         $query = "UPDATE products SET qty = qty - $qty, soldCount = soldCount + $qty WHERE id = $id";

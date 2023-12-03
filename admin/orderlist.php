@@ -43,9 +43,6 @@ $completeOrderList = $order->getCompleteOrder();
             <li><a href="orderlist.php" class="active">Quản lý Đơn hàng</a></li>
         </ul>
     </nav>
-    <div class="title">
-        <h1>Danh sách đơn đặt hàng</h1>
-    </div>
     <div class="container">
         <!-- Tab links -->
         <div class="tab">
