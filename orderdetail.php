@@ -27,7 +27,7 @@ $result = $orderDetails->getOrderDetails($_GET['orderId']);
 
 <body>
     <nav>
-        <label class="logo">AZSHop</label>
+        <label class="logo">AZShop</label>
         <ul>
             <li><a href="index.php">Trang chủ</a></li>
             <li><a href="productList.php">Sản phẩm</a></li>
@@ -50,9 +50,7 @@ $result = $orderDetails->getOrderDetails($_GET['orderId']);
         </ul>
     </nav>
     <section class="banner"></section>
-    <div class="featuredProducts">
-        <h1>Chi tiết đơn hàng <?= $_GET['orderId'] ?></h1>
-    </div>
+
     <div class="container-single">
         <table class="order">
             <tr>
@@ -78,6 +76,12 @@ $result = $orderDetails->getOrderDetails($_GET['orderId']);
     </div>
     </div>
     <footer>
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
+
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
