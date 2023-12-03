@@ -59,6 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     </div>
     <footer>
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
+
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
