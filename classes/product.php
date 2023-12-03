@@ -108,7 +108,7 @@ class product
         return $result;
     }
 
-    public function getProductsByCateId($page = 10, $cateId, $total = 1)
+    public function getProductsByCateId($page = 1, $cateId, $total = 8)
     {
         if ($page <= 0) {
             $page = 1;
@@ -192,28 +192,6 @@ class product
             return $result;
         }
         return false;
-    }
-
-    public function block($id)
-    {
-        $query = "UPDATE products SET status = 0 where id = '$id' ";
-        $result = $this->db->delete($query);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function active($id)
-    {
-        $query = "UPDATE products SET status = 1 where id = '$id' ";
-        $result = $this->db->delete($query);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
     }
     public function deleteProduct($productId)
     {
