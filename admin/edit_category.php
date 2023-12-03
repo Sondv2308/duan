@@ -43,9 +43,6 @@ if ($role_id == 1) {
             <li><a href="orderlist.php">Quản lý Đơn hàng</a></li>
         </ul>
     </nav>
-    <div class="title">
-        <h1>Chỉnh sửa danh mục</h1>
-    </div>
     <div class="container">
         <?php
         if (isset($result)) {
