@@ -7,15 +7,7 @@ $cart = new cart();
 $totalQty = $cart->getTotalQtyByUserId();
 
 $product = new product();
-
-// Kiểm tra xem có tham số tìm kiếm được gửi từ form hay không
-if(isset($_GET['search'])) {
-    $searchKeyword = $_GET['search'];
-    $list = mysqli_fetch_all($product->searchProducts($searchKeyword), MYSQLI_ASSOC);
-} else {
-    // Nếu không có tham số tìm kiếm, hiển thị sản phẩm nổi bật
-    $list = mysqli_fetch_all($product->getFeaturedProducts(), MYSQLI_ASSOC);
-}
+$list = mysqli_fetch_all($product->getFeaturedProducts(), MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +23,7 @@ if(isset($_GET['search'])) {
     <script src="https://kit.fontawesome.com/a42aeb5b72.js" crossorigin="anonymous"></script>
     <title>Trang chủ</title>
 </head>
-        
+
 <body>
     <nav>
         <label class="logo">AZShop</label>
@@ -56,8 +48,7 @@ if(isset($_GET['search'])) {
             </li>
         </ul>
     </nav>
-    <section class="banner">
-    </section>
+    <section class="banner"></section>
     <div class="featuredProducts">
         <h1>Sản phẩm nổi bật</h1>
     </div>
@@ -88,7 +79,7 @@ if(isset($_GET['search'])) {
                     <div class="price">
                         Giá bán: <?= number_format($value['promotionPrice'], 0, '', ',') ?>VND
                     </div>
-                    
+                   
                     <div class="action">
                         <a class="add-cart" href="add_cart.php?id=<?= $value['id'] ?>">Thêm vào giỏ</a>
                         <a class="detail" href="detail.php?id=<?= $value['id'] ?>">Xem chi tiết</a>
@@ -99,6 +90,11 @@ if(isset($_GET['search'])) {
         ?>
     </div>
     <footer>
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
        
         <p class="copyright">AZShop @ 2023</p>
     </footer>
