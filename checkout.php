@@ -89,9 +89,6 @@ $userInfo = $user->get();
                 <div class="buy">
                     <h3>Thông tin đơn đặt hàng</h3>
                     <div>
-                        Người đặt hàng: <b><?= $userInfo['fullname'] ?></b>
-                    </div>
-                    <div>
                         Số lượng: <b id="qtycart"><?= $totalQty['total'] ?></b>
                     </div>
                     <div>
@@ -112,7 +109,12 @@ $userInfo = $user->get();
     </div>
     </div>
     <footer>
-    
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
+
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
