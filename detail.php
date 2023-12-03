@@ -47,9 +47,7 @@ if (!$result) {
         </ul>
     </nav>
     <section class="banner"></section>
-    <div class="featuredProducts">
-        <h1>Sản phẩm</h1>
-    </div>
+
     <div class="container-single">
         <div class="image-product">
             <img src="admin/uploads/<?= $result['image'] ?>" alt="">
@@ -79,6 +77,13 @@ if (!$result) {
     </div>
     </div>
     <footer>
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
+        <ul class="list">
+
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
