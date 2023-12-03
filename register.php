@@ -1,13 +1,16 @@
 <?php
-include 'classes/user.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user = new user();
-    $result = $user->insert($_POST);
-    if ($result == true) {
-        $userId = $user->getLastUserId(); 
-        header("Location:./confirm.php?id=".$userId['id']."");
-    }
-}
+include_once 'lib/session.php';
+Session::checkSession('client');
+include_once 'classes/cart.php';
+include_once 'classes/user.php';
+
+$cart = new cart();
+$list = $cart->get();
+$totalPrice = $cart->getTotalPriceByUserId();
+$totalQty = $cart->getTotalQtyByUserId();
+
+$user = new user();
+$userInfo = $user->get();
 ?>
 
 <!DOCTYPE html>
@@ -21,23 +24,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://use.fontawesome.com/2145adbb48.js"></script>
     <script src="https://kit.fontawesome.com/a42aeb5b72.js" crossorigin="anonymous"></script>
-    <title>Đăng ký</title>
+    <title>Checkout</title>
 </head>
 
 <body>
     <nav>
-        <label class="logo">AZShop</label>
+        <label class="logo" id="logo">AZShop</label>
         <ul>
             <li><a href="index.php">Trang chủ</a></li>
             <li><a href="productList.php">Sản phẩm</a></li>
-            <li><a href="register.php" id="signup" class="active">Đăng ký</a></li>
-            <li><a href="login.php" id="signin">Đăng nhập</a></li>
+            <?php
+            if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
+                <li><a href="logout.php" id="signin">Đăng xuất</a></li>
+            <?php } else { ?>
+                <li><a href="register.php" id="signup">Đăng ký</a></li>
+                <li><a href="login.php" id="signin">Đăng nhập</a></li>
+            <?php } ?>
             <li><a href="order.php" id="order">Đơn hàng</a></li>
             <li>
-                <a href="checkout.html">
+                <a href="checkout.php" class="active">
                     <i class="fa fa-shopping-bag"></i>
-                    <span class="sumItem">
-                        0
+                    <span class="sumItem" id="totalQtyHeader">
+                        <?= $totalQty['total'] ?>
                     </span>
                 </a>
             </li>
@@ -45,40 +53,121 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </nav>
     <section class="banner"></section>
     <div class="featuredProducts">
-        <h1>Đăng ký</h1>
+        <h1>Giỏ hàng</h1>
     </div>
     <div class="container-single">
-        <div class="login">
-            <form action="register.php" method="post" class="form-login">
-                <label for="fullName">Họ tên</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Họ tên..." required>
-
-                <label for="email">Email</label>
-                <p class="error"><?= !empty($result) ? $result : '' ?></p>
-                <input type="email" id="email" name="email" placeholder="Email..." required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-
-                <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" placeholder="Mật khẩu..." required>
-
-                <label for="repassword">Nhập lại mật khẩu</label>
-                <input type="password" id="repassword" name="repassword" required placeholder="Nhập lại mật khẩu..." oninput="check(this)">
-
-                <input type="submit" value="Đăng ký" name="submit">
-            </form>
-        </div>
+        <?php
+        if ($list) { ?>
+            <table class="order">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thao tác</th>
+                </tr>
+                <?php
+                $count = 1;
+                foreach ($list as $key => $value) { ?>
+                    <tr>
+                        <td><?= $count++ ?></td>
+                        <td><?= $value['productName'] ?></td>
+                        <td><img class="image-cart" src="admin/uploads/<?= $value['productImage'] ?>"></td>
+                        <td><?= number_format($value['productPrice'], 0, '', ',') ?>VND </td>
+                        <td>
+                            <input id="<?= $value['productId'] ?>" type="number" name="qty" class="qty" value="<?= $value['qty'] ?>" onchange="update(this)" min="1">
+                        </td>
+                        <td>
+                            <a href="delete_cart.php?id=<?= $value['id'] ?>">Xóa</a>
+                        </td>
+                    </tr>
+                <?php }
+                ?>
+            </table>
+            <div class="orderinfo">
+                <div class="buy">
+                    <h3>Thông tin đơn đặt hàng</h3>
+                    <div>
+                        Số lượng: <b id="qtycart"><?= $totalQty['total'] ?></b>
+                    </div>
+                    <div>
+                        Tổng tiền: <b id="totalcart"><?= number_format($totalPrice['total'], 0, '', ',') ?>VND</b>
+                    </div>
+                    <div>
+                        Địa chỉ nhận hàng: <b><?= $userInfo['address'] ?></b>
+                    </div>
+                    <div class="buy-btn">
+                        <a href="add_order.php">Tiến hành đặt hàng</a>
+                    </div>
+                </div>
+            </div>
+        <?php } else { ?>
+            <h3>Giỏ hàng hiện đang rỗng</h3>
+        <?php }
+        ?>
     </div>
     </div>
     <footer>
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        </div>
+
         <p class="copyright">AZShop @ 2023</p>
     </footer>
 </body>
-<script language='javascript' type='text/javascript'>
-    function check(input) {
-        if (input.value != document.getElementById('password').value) {
-            input.setCustomValidity('Password Must be Matching.');
-        }else{
-            input.setCustomValidity('');
+<script type="text/javascript">
+    function update(e) {
+        var http = new XMLHttpRequest();
+        var url = 'update_cart.php';
+        var params = "productId=" + e.id + "&qty=" + e.value;
+        http.open('POST', url, true);
+
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        http.onreadystatechange = function() {
+            if (http.readyState === XMLHttpRequest.DONE) {
+                var status = http.status;
+                if (status === 200) {
+                    var arr = http.responseText;
+                    var b = false;
+                    var result = "";
+                    for (let index = 0; index < arr.length; index++) {
+                        if (arr[index] == "[") {
+                            b = true;
+                        }
+                        if (b) {
+                            result += arr[index];
+                        }
+                    }
+                    var arrResult = JSON.parse(result.replace("undefined", ""));
+                    console.log(arrResult);
+                    document.getElementById("totalQtyHeader").innerHTML = arrResult[1]['total'];
+                    document.getElementById("qtycart").innerHTML = arrResult[1]['total'];
+                    document.getElementById("totalcart").innerHTML = arrResult[0]['total'].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "VND";
+
+                    //alert('Đã cập nhật giỏ hàng!');
+                } else if (status === 501) {
+                    alert('Số lượng sản phẩm không đủ để thêm vào giỏ hàng!');
+                    e.value = parseInt(e.value) - 1;
+                } else {
+                    alert('Cập nhật giỏ hàng thất bại!');
+                    window.location.reload();
+                }
+            }
+
         }
+        http.send(params);
+    }
+
+    var list = document.getElementsByClassName("qty");
+    for (let item of list) {
+        item.addEventListener("keypress", function(evt) {
+            evt.preventDefault();
+        });
     }
 </script>
+
 </html>
